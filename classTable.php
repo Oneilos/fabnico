@@ -141,7 +141,7 @@ class table {
             $this->setSelect("SELECT * FROM {$this->getName()} {$this->getJointureSelect()} WHERE {$this->getId()}='{$_REQUEST[$this->getId()]}'");
         }
     	$aff = '
-        <form method="post" action="' . $this->getUrl() . '" class="ajax">
+        <form method="post" action="' . $this->getUrl() . '" class="fbn_form">
             <fieldset id="fieldset_infos">
                 <legend>' . (is_array($_REQUEST[$this->getId()]) ? 'Modification de masse des ' . $this->getLibelle() . 's' : 'Informations sur ' . $this->getLibelleLeLa()) . '</legend>
         ';
@@ -191,7 +191,7 @@ class table {
         }
         $aff = '
             <h2>' . $this->getLibelleTitre() . '</h2>
-            <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=form" title="Ajouter ' . $this->getLibelleUnUne() . '" class="ajouter">Ajouter ' . $this->getLibelleUnUne() . '</a>
+            <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=form" title="Ajouter ' . $this->getLibelleUnUne() . '" class="fbn_add">Ajouter ' . $this->getLibelleUnUne() . '</a>
             <table style="width:100%;">
                 <thead>
                     <tr>
@@ -218,8 +218,8 @@ class table {
             }
             $aff .= '
                     <td>
-                        <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=form" class="modifier" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>
-                        <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=delete" class="supprimer" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>
+                        <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=form" class="fbn_edit" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>
+                        <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=delete" class="fbn_delete" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>
                     </td>
                 </tr>
             ';
