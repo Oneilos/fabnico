@@ -46,6 +46,29 @@ class champ {
         $aff = '<label for="' . $this->getCode() . '">' . $this->getLibelle() . '</label>';
         if ($this->getReadonly()) {
             switch ($this->getClass()) {
+                case '1n':
+                case 'enum':
+                    if ($this->getClass()=='1n') {
+                        $v = $this->getValues();
+                        $result = mysql_query($sql = "SELECT {$v['key']}, concat({$v['libelle']}) FROM {$v['from']}");
+                        while (list($key, $libelle) = mysql_fetch_row($result)) {
+                            if ($value==$key) {
+                                $lbl = $libelle;
+                                break;
+                            }
+                        }
+                    } else {
+                        foreach ($this->getValues() as $key=>$libelle) {
+                            if ($value==$key) {
+                                $lbl = $libelle;
+                                break;
+                            }
+                        }
+                    }
+                    $aff .= '                    
+                        <span id="' . $this->getCode() . '" class="fbn_readonly ' . $this->getClass() . '">' . $lbl . '</span>
+                    ';
+                    break;
                 default:
                     $aff .= '                    
                         <span id="' . $this->getCode() . '" class="fbn_readonly ' . $this->getClass() . '">' . $value . '</span>
