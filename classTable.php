@@ -108,8 +108,8 @@ class table {
             if (isset($_REQUEST[$champ->getCode()]) && ($champ->isPresent($present)) && $champ->getClass()!='nn') {
                 $_REQUEST[$champ->getCode()] = addSlashes($_REQUEST[$champ->getCode()]);
                 $data[] = $champ->getSaveRender($_REQUEST[$champ->getCode()]);
-            } elseif ($champ->getDefault() && (!isset($_REQUEST[$this->getId()]) || empty($this->getRow()->{$champ->getCode()})) && $champ->getClass()!='nn') {
-                $data[] = $champ->getSaveRender($champ->getDefault());
+            } elseif ($champ->getDefaultInsert() && (!isset($_REQUEST[$this->getId()]) || empty($this->getRow()->{$champ->getCode()})) && $champ->getClass()!='nn') {
+                $data[] = $champ->getSaveRender($champ->getDefaultInsert());
             }
         }
 

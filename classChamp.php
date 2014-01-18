@@ -2,7 +2,8 @@
 class champ {
 
     private $present;
-    private $default;
+    private $defaultInsert;
+    private $defaultFiltre;
     private $filtre;
     private $primary=false;
 
