@@ -7,21 +7,21 @@ class champ {
     private $primary=false;
 
     public function __construct($options=null) {
-        
+
         foreach ((array) $options as $key=>$value) {
             $this->{$key} = $value;
         }
-        
+
     }
-    
-    public function isPresent($lieu) 
+
+    public function isPresent($lieu)
     {
         if (null===$this->getPresent()) {
             $this->setPresent(array('l', 'f')); // par défaut les champs sont présent en liste & fiche
         }
         return in_array($lieu, $this->getPresent());
     }
-    
+
     public function getSaveRender($value)
     {
         switch ($this->getClass()) {
@@ -36,7 +36,7 @@ class champ {
                 break;
         }
     }
-    
+
     public function getFormRender($value)
     {
         switch ($this->getClass()) {
@@ -97,7 +97,7 @@ class champ {
                 break;
         }
     }
-    
+
     public function getSqlFiltreRender($value)
     {
         switch ($this->getFiltre()) {
@@ -117,24 +117,24 @@ class champ {
                 if (count($data)) {
                     return implode(' AND ', $data);
                 }
-                break;  
+                break;
             case "like '%?'":
             case "like '%?%'":
             case "like '?%'":
                 if ($value) {
                     return "{$this->getCode()} " . str_replace('?', $value, $this->getFiltre());
                 }
-                break;  
+                break;
             default:
                 if ($value) {
                     return "{$this->getCode()} {$this->getFiltre()} '{$value}'";
                 }
-                break;               
+                break;
         }
     }
-    
+
     public function getFiltreRender($value)
-    {                
+    {
         switch ($this->getClass()) {
             case 'libelle_long':
                 return '
@@ -152,12 +152,12 @@ class champ {
                     ';
                     break;
                 }// pas de break ici c'est exprès
-            default:            
+            default:
                 return $this->getFormRender($value);
                 break;
         }
     }
-    
+
     public function getListeRender($value)
     {
         if ($this->isPresent('l')) {
@@ -192,7 +192,7 @@ class champ {
             }
         }
     }
-    
+
     public function __call($method, $args)
     {
         $method = strTolower($method);

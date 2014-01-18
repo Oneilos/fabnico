@@ -11,7 +11,7 @@ class table {
     {
         foreach ((array) $options as $key=>$value) {
             $this->{$key} = $value;
-        }        
+        }
         $this->setCurrentPage(isset($_REQUEST['page']) ? $_REQUEST['page'] : 1);
     }
 
@@ -215,7 +215,7 @@ class table {
     public function getFormFiltre()
     {
         $nbFiltre=0;
-        $filtres = '            
+        $filtres = '
                 <fieldset id="fieldset_infos">
                     <legend>Filtres</legend>
                     <div>
@@ -227,7 +227,7 @@ class table {
             }
         }
         $filtres .= '
-                    </div>                    
+                    </div>
                     <input type="submit" value="Rechercher" class="submit" />
                     <a href="' . $this->getUrl() . '?t=' . $this->getCode() .'">Annuler</a>
                 </fieldset>
@@ -292,7 +292,7 @@ class table {
                 </thead>
                 <tbody>
         ';
-        if ($this->getNbRows()) {    
+        if ($this->getNbRows()) {
             foreach ($this->getRows() as $row) {
                 if ($this->getNbParPage() && $this->getCurrentPage()>1 && $i++<(($this->getCurrentPage()-1)*$this->getNbParPage()) ) {
                     continue;
