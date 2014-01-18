@@ -48,7 +48,7 @@ class champ {
             switch ($this->getClass()) {
                 default:
                     $aff .= '                    
-                        <span id="' . $this->getCode() . '">' . $value . '</span>
+                        <span id="' . $this->getCode() . '" class="fbn_readonly ' . $this->getClass() . '">' . $value . '</span>
                     ';
                     break;
             }
@@ -56,7 +56,7 @@ class champ {
             switch ($this->getClass()) {
                 case 'libelle_long':
                     $aff .= '    
-                        <textarea name="' . $this->getCode() . '" id="' . $this->getCode() . '">' . $value . '</textarea>
+                        <textarea name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '">' . $value . '</textarea>
                     ';
                     break;
                 case 'datepicker':
@@ -84,7 +84,7 @@ class champ {
                         }
                     }
                     $aff .= '    
-                        <select name="' . $this->getCode() . '" id="' . $this->getCode() . '"><option value="">...</option>' . implode('', $datas) . '</select>
+                        <select name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '"><option value="">...</option>' . implode('', $datas) . '</select>
                     ';
                     break;
                 case 'nn':
@@ -101,7 +101,7 @@ class champ {
                     break;
                 default:
                     $aff .= '                    
-                        <input type="text" name="' . $this->getCode() . '" id="' . $this->getCode() . '" value="' . $value . '" />
+                        <input type="text" name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '" value="' . $value . '" />
                     ';
                     break;
             }
