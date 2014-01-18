@@ -197,19 +197,25 @@ class table {
         return $aff;
     }
 
+    public function getValueFiltre($champ)
+    {
+        if (isset($_REQUEST[$champ->getCode()])) {
+            $_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()] = $_REQUEST[$champ->getCode()];
+        }        
+        if ($_REQUEST['rechercher']=='Annuler') {
+            unset($_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()]);
+        }
+        if (!isset($_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()]) && $champ->getDefaultFiltre()) {
+            $_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()] = $champ->getDefaultFiltre();
+        }
+        return $_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()];
+    }
+    
     public function getSqlFiltre()
     {
         foreach ($this->getChamps() as $champ) {
-            if ($champ->getFiltre()) {
-                if (isset($_REQUEST[$champ->getCode()])) {
-                    if ($sqlFiltre = $champ->getSqlFiltreRender($_REQUEST[$champ->getCode()])) {
-                        $data[] = $sqlFiltre;
-                    } 
-                } elseif ($champ->getDefaultFiltre()) {
-                    if ($sqlFiltre = $champ->getSqlFiltreRender($champ->getDefaultFiltre())) {
-                        $data[] = $sqlFiltre;
-                    } 
-                }
+            if ($champ->getFiltre() && ($filtre = $champ->getSqlFiltreRender($this->getValueFiltre($champ)))) {
+                $data[] = $filtre;
             }
         }
         if (count($data)) {
@@ -227,14 +233,14 @@ class table {
         ';
         foreach ($this->getChamps() as $champ) {
             if ($champ->getFiltre()) {
-                $filtres .= $champ->getFiltreRender(isset($_REQUEST[$champ->getCode()]) ? $_REQUEST[$champ->getCode()] : $champ->getDefaultFiltre());
+                $filtres .= $champ->getFiltreRender($this->getValueFiltre($champ));
                 $nbFiltre++;
             }
         }
         $filtres .= '
                     </div>
-                    <input type="submit" value="Rechercher" class="submit" />
-                    <a href="' . $this->getUrl() . '?t=' . $this->getCode() .'">Annuler</a>
+                    <input type="submit" name="rechercher" value="Rechercher" class="submit" />
+                    <input type="submit" name="rechercher" value="Annuler" class="submit" />
                 </fieldset>
         ';
 
@@ -337,7 +343,11 @@ class table {
 
     private function getUrl()
     {
-        return substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
+        if (strpos($_SERVER['REQUEST_URI'], '?')===false) {
+            return $_SERVER['REQUEST_URI'];
+        } else {
+            return substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
+        }
     }
 
     public function __toString()
