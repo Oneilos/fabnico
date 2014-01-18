@@ -80,7 +80,7 @@ class champ {
                 }
                 return '
                     <label>' . $this->getLibelle() . '</label>
-                    <select name="' . $this->getCode() . '" id="' . $this->getCode() . '"><option>...</option>' . implode('', $datas) . '</select>
+                    <select name="' . $this->getCode() . '" id="' . $this->getCode() . '"><option value="">...</option>' . implode('', $datas) . '</select>
                 ';
                 break;
             case 'nn':
