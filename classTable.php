@@ -200,9 +200,15 @@ class table {
     public function getSqlFiltre()
     {
         foreach ($this->getChamps() as $champ) {
-            if ($champ->getFiltre() && $_REQUEST[$champ->getCode()]) {
-                if ($sqlFiltre = $champ->getSqlFiltreRender($_REQUEST[$champ->getCode()])) {
-                    $data[] = $sqlFiltre;
+            if ($champ->getFiltre()) {
+                if (isset($_REQUEST[$champ->getCode()])) {
+                    if ($sqlFiltre = $champ->getSqlFiltreRender($_REQUEST[$champ->getCode()])) {
+                        $data[] = $sqlFiltre;
+                    } 
+                } elseif ($champ->getDefaultFiltre()) {
+                    if ($sqlFiltre = $champ->getSqlFiltreRender($champ->getDefaultFiltre())) {
+                        $data[] = $sqlFiltre;
+                    } 
                 }
             }
         }
@@ -221,7 +227,7 @@ class table {
         ';
         foreach ($this->getChamps() as $champ) {
             if ($champ->getFiltre()) {
-                $filtres .= $champ->getFiltreRender($_REQUEST[$champ->getCode()]);
+                $filtres .= $champ->getFiltreRender(isset($_REQUEST[$champ->getCode()]) ? $_REQUEST[$champ->getCode()] : $champ->getDefaultFiltre());
                 $nbFiltre++;
             }
         }
