@@ -1,5 +1,4 @@
 <?php
-/** test git hub FAB */
 class table {
 
     private $jointures;
