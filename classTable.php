@@ -104,6 +104,7 @@ class table {
             $present = 'f';
         }
 
+
         foreach ($this->getChamps() as $champ) {
             if (isset($_REQUEST[$champ->getCode()]) && ($champ->isPresent($present)) && $champ->getClass()!='nn') {
                 $_REQUEST[$champ->getCode()] = addSlashes($_REQUEST[$champ->getCode()]);
@@ -135,6 +136,7 @@ class table {
         }
         return 'OK';
     }
+
     public function delete()
     {
         if (!empty($_REQUEST[$this->getId()])) {
@@ -201,7 +203,7 @@ class table {
     {
         if (isset($_REQUEST[$champ->getCode()])) {
             $_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()] = $_REQUEST[$champ->getCode()];
-        }        
+        }
         if ($_REQUEST['rechercher']=='Annuler') {
             unset($_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()]);
         }
@@ -210,7 +212,7 @@ class table {
         }
         return $_SESSION['fbn_recherche'][$this->getUrl()][$champ->getCode()];
     }
-    
+
     public function getSqlFiltre()
     {
         foreach ($this->getChamps() as $champ) {
@@ -273,6 +275,13 @@ class table {
         }
     }
 
+    public function getActions()
+    { 
+        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=form" class="fbn_edit" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>';
+        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=delete" class="fbn_delete" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>';
+        return $aff;
+    }
+    
     public function getListe()
     {
         if (null===$this->getSelect()) {
@@ -311,21 +320,20 @@ class table {
                 if ($this->getNbParPage() && $i++>=($this->getCurrentPage()*$this->getNbParPage()) ) {
                     break;
                 }
-                $aff .= '
-                    <tr>
-                ';
+                $aff .= '<tr>';
                 foreach ($this->getChamps() as $champ) {
                     if ($champ->isPresent('l')) {
                         $aff .= $champ->getListeRender($row->{$champ->getCode()});
                     }
                 }
-                $aff .= '
-                        <td>
-                            <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=form" class="fbn_edit" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>
-                            <a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=delete" class="fbn_delete" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>
-                        </td>
-                    </tr>
-                ';
+                $aff .= '<td>';
+                $actions = $this->getActions();
+                $actions = preg_replace('/href="([^"?]*)"/', 'href="$1?"', $actions);                
+                $actions = preg_replace('/href="([^"]*[^"?])"/', 'href="$1&"', $actions);                
+                $actions = preg_replace('/href="([^"]*?[^"]*)"/', 'href="$1' . $this->getId() . '=' . $row->{$this->getId()} . '"', $actions);                
+                $aff .= $actions;
+                $aff .= '</td>';
+                $aff .= '</tr>';
             }
         } else {
             $aff .= '
