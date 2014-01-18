@@ -68,7 +68,7 @@ class champ {
             case 'enum':
                 if ($this->getClass()=='1n') {
                     $v = $this->getValues();
-                    $result = mysql_query($sql = "SELECT {$v['key']}, {$v['libelle']} FROM {$v['from']}");
+                    $result = mysql_query($sql = "SELECT {$v['key']}, concat({$v['libelle']}) FROM {$v['from']}");
                     while (list($key, $libelle) = mysql_fetch_row($result)) {
                         $datas[] = '<option ' . ($value==$key ? ' selected' : '') . ' value="' . $key . '">' . $libelle . '</option>';
                     }
@@ -166,7 +166,7 @@ class champ {
                 case 'enum':
                     if ($this->getClass()=='1n') {
                         $v = $this->getValues();
-                        $result = mysql_query($sql = "SELECT {$v['key']}, {$v['libelle']} FROM {$v['from']}");
+                        $result = mysql_query($sql = "SELECT {$v['key']}, concat({$v['libelle']}) FROM {$v['from']}");
                         while (list($key, $libelle) = mysql_fetch_row($result)) {
                             if ($value==$key) {
                                 return '<td' . ($this->getClass() ? ' class="' . $this->getClass() . '"' : '') . '>' . $libelle . '</td>';
