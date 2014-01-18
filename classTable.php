@@ -234,7 +234,6 @@ class table {
         $filtres .= '
                     </div>
                     <input type="submit" value="Rechercher" class="submit" />
-                    <input type="reset" value="reset" class="submit" />
                     <a href="' . $this->getUrl() . '?t=' . $this->getCode() .'">Annuler</a>
                 </fieldset>
         ';

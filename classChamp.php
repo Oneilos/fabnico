@@ -25,7 +25,7 @@ class champ {
 
     public function getSaveRender($value)
     {
-        if ($this->isReadonly() && $value!=$this->getDefaultInsert()) {
+        if ($this->getReadonly() && $value!=$this->getDefaultInsert()) {
             return;
         }
         switch ($this->getClass()) {
@@ -44,7 +44,7 @@ class champ {
     public function getFormRender($value)
     {
         $aff = '<label for="' . $this->getCode() . '">' . $this->getLibelle() . '</label>';
-        if ($this->isReadonly()) {
+        if ($this->getReadonly()) {
             switch ($this->getClass()) {
                 default:
                     $aff .= '                    
