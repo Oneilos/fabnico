@@ -50,7 +50,7 @@ class champ {
                 case 'enum':
                     if ($this->getClass()=='1n') {
                         $v = $this->getValues();
-                        $result = mysql_query($sql = "SELECT {$v['key']}, concat({$v['libelle']}) FROM {$v['from']}");
+                        $result = mysql_query($sql = "SELECT {$v['key']}, concat({$v['libelle']}) FROM {$v['from']} ORDER BY 2");
                         while (list($key, $libelle) = mysql_fetch_row($result)) {
                             if ($value==$key) {
                                 $lbl = $libelle;
@@ -65,12 +65,12 @@ class champ {
                             }
                         }
                     }
-                    $aff .= '                    
+                    $aff .= '
                         <span id="' . $this->getCode() . '" class="fbn_readonly ' . $this->getClass() . '">' . $lbl . '</span>
                     ';
                     break;
                 default:
-                    $aff .= '                    
+                    $aff .= '
                         <span id="' . $this->getCode() . '" class="fbn_readonly ' . $this->getClass() . '">' . $value . '</span>
                     ';
                     break;
@@ -78,7 +78,7 @@ class champ {
         } else {
             switch ($this->getClass()) {
                 case 'libelle_long':
-                    $aff .= '    
+                    $aff .= '
                         <textarea name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '">' . $value . '</textarea>
                     ';
                     break;
@@ -106,7 +106,7 @@ class champ {
                             $datas[] = '<option ' . ($value==$key ? ' selected' : '') . ' value="' . $key . '">' . $libelle . '</option>';
                         }
                     }
-                    $aff .= '    
+                    $aff .= '
                         <select name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '"><option value="">...</option>' . implode('', $datas) . '</select>
                     ';
                     break;
@@ -116,14 +116,14 @@ class champ {
                     while (list($key, $libelle) = mysql_fetch_row($result)) {
                         $datas[] = '<div style="clear:both;" ><input type="checkbox" class="checkbox_nn" ' . (in_array($key, $value) ? ' checked' : '') . ' name="' . $this->getCode() . '[' . $key . ']" value="1"><span class="span_nn">' . $libelle . '</span></div>';
                     }
-                    $aff .= '    
+                    $aff .= '
                         <div class="div_nn" >
                         ' . implode('', $datas) . '
                         </div>
                     ';
                     break;
                 default:
-                    $aff .= '                    
+                    $aff .= '
                         <input type="text" name="' . $this->getCode() . '" id="' . $this->getCode() . '" class="' . $this->getClass() . '" value="' . $value . '" />
                     ';
                     break;
