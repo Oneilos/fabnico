@@ -275,10 +275,10 @@ class table {
         }
     }
 
-    public function getActions()
+    public function getActions($row)
     { 
-        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=form" class="fbn_edit" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>';
-        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&action=delete" class="fbn_delete" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>';
+        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=form" class="fbn_edit" title="Consulter / Modifier ' . $this->getLibelleLeLa() . '">M</a>';
+        $aff .= '<a href="' . $this->getUrl() . '?t=' . $this->getCode() . '&' . $this->getId() . '=' . $row->{$this->getId()} . '&action=delete" class="fbn_delete" title="Supprimer ' . $this->getLibelleLeLa() . '">S</a>';
         return $aff;
     }
     
@@ -327,10 +327,7 @@ class table {
                     }
                 }
                 $aff .= '<td>';
-                $actions = $this->getActions();
-                $actions = preg_replace('/href="([^"?]*)"/', 'href="$1?"', $actions);                
-                $actions = preg_replace('/href="([^"]*[^"?])"/', 'href="$1&"', $actions);                
-                $actions = preg_replace('/href="([^"]*?[^"]*)"/', 'href="$1' . $this->getId() . '=' . $row->{$this->getId()} . '"', $actions);                
+                $actions = $this->getActions($row);              
                 $aff .= $actions;
                 $aff .= '</td>';
                 $aff .= '</tr>';
